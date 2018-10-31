@@ -1,0 +1,14 @@
+---
+- name: gather facts from zabbix proxys
+  setup:
+    gather_subset:
+      - '!all'
+      - '!min'
+      - network
+  delegate_to: "{{groups[zabbix_proxy_group][0]}}"
+  delegate_facts: True
+
+- name: set zabbix proxy address register
+  set_fact:
+    zabbix_proxy_network_address: "{{ hostvars[groups[zabbix_proxy_group][0]][zabbix_proxy_network_interface][zabbix_proxy_network_address_family]['address'] }}"
+    cacheable: true

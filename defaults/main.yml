@@ -1,4 +1,5 @@
 ---
-zabbix_proxy_group: ZabbixProxy
-zabbix_proxy_network_interface: ansible_eth0
+zabbix_proxy_group: ZabbixProxies
+zabbix_proxy_network_interface: eth0
 zabbix_proxy_network_address_family: ipv4
+zabbix_proxy_use_all_interfaces: False

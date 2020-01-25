@@ -8,8 +8,18 @@
   delegate_to: "{{groups[zabbix_proxy_group][0]}}"
   delegate_facts: True
 
+- name: Set name network interface
+  set_fact:
+    name_zabbix_proxy_network_interface: "ansible_{{ zabbix_proxy_network_interface }}"
+    cacheable: True
+
 - name: set zabbix proxy address register
   set_fact:
-    zabbix_proxy_network_address: "{{ hostvars[groups[zabbix_proxy_group][0]][zabbix_proxy_network_interface][zabbix_proxy_network_address_family]['address'] }}"
+    zabbix_proxy_network_address: "{{ hostvars[groups[zabbix_proxy_group][0]][name_zabbix_proxy_network_interface][zabbix_proxy_network_address_family]['address'] }}"
+    cacheable: false
+
+- name: set zabbix proxy address list register
+  set_fact:
     zabbix_proxy_network_address_list: "{{ hostvars[groups[zabbix_proxy_group][0]]['ansible_all_'+zabbix_proxy_network_address_family+'_addresses'] }}"
-    cacheable: true
+    cacheable: False
+  when: zabbix_proxy_use_all_interfaces
